@@ -9,14 +9,11 @@ const About = () => {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className={styles.sectionSubText}>Introduction</p>
-        <h2 className={styles.sectionHeadText}>Overview.</h2>
+        <p className={`${styles.sectionSubText} text-center`}>Introduction</p>
+        <h2 className={`${styles.sectionHeadText} text-center`}>Overview.</h2>
       </motion.div>
 
-      <motion.p
-        variants={fadeIn({})}
-        className="mt-4 text-secondary text-[17px] max-w-4xl leading-[30px]"
-      >
+      <motion.p className="max-w-4xl text-secondary text-[17px] leading-[30px]">
         I'm a skilled Fullstack Developer with experience in TypeScript and
         JavaScript, and expertise in frameworks like React, Node.js and Web3.
         Dedicated to delivering seamless and engaging user interactions, I
@@ -28,7 +25,7 @@ const About = () => {
         your ideas to life!
       </motion.p>
 
-      <div className="mt-10 flex flex-wrap gap-6">
+      <div className="mt-10 flex flex-wrap gap-6 justify-center">
         {services.map((service, index) => (
           <div className="sm:w-[280px] w-full">
             <motion.div

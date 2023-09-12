@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import MyInfo from "@/components/MyInfo";
 import About from "@/components/About";
+import Experience from "@/components/Experience";
 
 const App = () => {
   return (
@@ -9,8 +10,9 @@ const App = () => {
         <Navbar />
         <MyInfo />
       </div>
-      <div className=" bg-primary">
+      <div className="bg-primary flex flex-col items-center">
         <About />
+        <Experience />
       </div>
     </div>
   );

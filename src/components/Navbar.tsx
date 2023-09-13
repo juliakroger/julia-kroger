@@ -58,6 +58,15 @@ const Navbar = () => {
               <a href={`#${nav.id}`}>{nav.title}</a>
             </li>
           ))}
+
+          <a
+            href="mailto:juliakroger@gmail.com"
+            className={cn(
+              "text-secondary hover:text-white text-sm font-medium cursor-pointer"
+            )}
+          >
+            Contact
+          </a>
         </ul>
       </div>
     </nav>

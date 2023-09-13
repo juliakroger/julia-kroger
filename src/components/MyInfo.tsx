@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { styles } from "@/styles/styles";
 import Typewriter from "@/components/Typewriter";
+import EarthCanvas from "@/components/canvas/Earth";
 
 const MyInfo = () => (
   <section className="relative w-full h-screen">
@@ -80,9 +81,11 @@ const MyInfo = () => (
           </a>
         </div>
       </div>
-    </div>
 
-    {/* TODO: add download CV */}
+      <div className="w-full md:w-[450px] md:h-[550px] lg:flex hidden">
+        <EarthCanvas />
+      </div>
+    </div>
 
     <div className="absolute xs:bottom-10 bottom-32 w-full flex justify-center items-center">
       <a href="#about">

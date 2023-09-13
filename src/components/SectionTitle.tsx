@@ -4,8 +4,8 @@ import { styles } from "@/styles/styles";
 import { fadeIn, textVariant } from "@/utils/motion";
 
 const SectionTitle = ({ title = "", subTitle = "", text = "" }: any) => (
-  <>
-    <motion.div variants={textVariant()} className="sm:flex hidden">
+  <div className="flex flex-col justify-center w-full">
+    <motion.div variants={textVariant()} className="sm:block hidden">
       <p className={`${styles.sectionSubText} text-center`}>{title}</p>
       <h2 className={`${styles.sectionHeadText} text-center`}>{subTitle}</h2>
     </motion.div>
@@ -19,7 +19,7 @@ const SectionTitle = ({ title = "", subTitle = "", text = "" }: any) => (
       <div className="w-full flex justify-center mt-3">
         <motion.div
           variants={fadeIn({})}
-          className="sm:flex hidden mt-3 text-secondary text-center text-[17px] leading-[30px] max-w-3xl"
+          className="sm:block hidden mt-3 text-secondary text-center text-[17px] leading-[30px] max-w-3xl"
         >
           {text}
         </motion.div>
@@ -29,7 +29,7 @@ const SectionTitle = ({ title = "", subTitle = "", text = "" }: any) => (
         </div>
       </div>
     ) : null}
-  </>
+  </div>
 );
 
 export default SectionTitle;

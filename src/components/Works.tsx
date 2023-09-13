@@ -19,7 +19,6 @@ interface Props {
 }
 
 const ProjectCard = ({
-  index,
   name,
   url,
   date,
@@ -29,7 +28,7 @@ const ProjectCard = ({
   source_code_link,
 }: Props) => {
   return (
-    <>
+    <div>
       <div className="relative w-full h-[230px]">
         <img
           onClick={() => window.open(url, "_blank")}
@@ -65,7 +64,7 @@ const ProjectCard = ({
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -81,7 +80,7 @@ const Works = () => {
           projects effectively."
       />
 
-      <div className="sm:mt-20 grid sm:grid-cols-3 gap-7">
+      <div className="sm:mt-20 grid md:grid-cols-2 xl:grid-cols-3 gap-7">
         {projects.map((project, index) => (
           <div key={`project-${index}`}>
             <motion.div

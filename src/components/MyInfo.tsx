@@ -6,7 +6,7 @@ import EarthCanvas from "@/components/canvas/Earth";
 const MyInfo = () => (
   <section className="relative w-full h-screen">
     <div
-      className={`absolute inset-0 max-w-7xl mx-auto ${styles.paddingX} flex flex-row justify-center items-center gap-5`}
+      className={`absolute inset-0 max-w-7xl mx-auto ${styles.paddingX} flex flex-row justify-center items-center gap-12`}
     >
       <div className="w-[520px]">
         <h1 className={`${styles.headText} text-white`}>

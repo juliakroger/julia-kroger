@@ -4,6 +4,7 @@ import { styles } from "@/styles/styles";
 import { services } from "@/constants/services";
 import SectionWrapper from "@/components/hoc/SectionWrapper";
 import { fadeIn, textVariant } from "@/utils/motion";
+import Tech from "@/components/Tech";
 
 const About = () => {
   return (
@@ -13,7 +14,7 @@ const About = () => {
         <h2 className={`${styles.sectionHeadText} text-center`}>Overview.</h2>
       </motion.div>
 
-      <motion.p className="max-w-4xl text-secondary text-[17px] leading-[30px]">
+      <motion.p className="max-w-4xl text-center text-secondary text-[17px] leading-[30px]">
         I'm a skilled Fullstack Developer with experience in TypeScript and
         JavaScript, and expertise in frameworks like React, Node.js and Web3.
         Dedicated to delivering seamless and engaging user interactions, I
@@ -24,6 +25,8 @@ const About = () => {
         solutions that solve real-world problems. Let's work together to bring
         your ideas to life!
       </motion.p>
+
+      <Tech />
 
       <div className="mt-10 flex flex-wrap gap-6 justify-center">
         {services.map((service, index) => (

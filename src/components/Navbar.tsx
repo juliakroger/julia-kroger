@@ -41,7 +41,7 @@ const Navbar = () => {
           }}
         >
           <p className="text-white text-[18px] font-bold cursor-pointer flex ">
-            JK
+            J.KCA
           </p>
         </Link>
 

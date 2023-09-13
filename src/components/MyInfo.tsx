@@ -17,8 +17,8 @@ const MyInfo = () => (
           ></Typewriter>
         </h1>
         <p className={`${styles.subText} mt-2 text-white-100`}>
-          I'm a Fullstack Developer, over 5 <br className="sm:block hidden" />
-          years of professional experience.
+          I'm a Fullstack Developer, with over 5 years of professional
+          experience.
         </p>
 
         <div className="grid grid-cols-3 mt-6 divide-x gap-4">

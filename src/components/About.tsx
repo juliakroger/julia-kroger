@@ -1,39 +1,39 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { styles } from "@/styles/styles";
 import { services } from "@/constants/services";
 import SectionWrapper from "@/components/hoc/SectionWrapper";
-import { fadeIn, textVariant } from "@/utils/motion";
+import { fadeIn } from "@/utils/motion";
 import Tech from "@/components/Tech";
+import SectionTitle from "./SectionTitle";
 
 const About = () => {
   return (
     <>
-      <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} text-center`}>about me</p>
-        <h2 className={`${styles.sectionHeadText} text-center`}>Overview.</h2>
-      </motion.div>
+      <SectionTitle
+        title="about me"
+        subTitle="Overview."
+        text={
+          <div className="flex flex-col items-center">
+            <img
+              className="img-shape mb-10"
+              src="https://media.licdn.com/dms/image/D4E03AQFcgj52Nc-6dQ/profile-displayphoto-shrink_800_800/0/1694466344970?e=2147483647&v=beta&t=mTDwfXXIRf4LJWFd44wQ5AueYUa8QTOLU-IEzZfUSE4"
+            />
 
-      <motion.div className="max-w-4xl flex items-center">
-        <div className="flex flex-col items-center">
-          <img
-            className="img-shape mb-10"
-            src="https://media.licdn.com/dms/image/D4E03AQFcgj52Nc-6dQ/profile-displayphoto-shrink_800_800/0/1694466344970?e=2147483647&v=beta&t=mTDwfXXIRf4LJWFd44wQ5AueYUa8QTOLU-IEzZfUSE4"
-          />
-
-          <p className="text-center text-secondary text-[17px] leading-[30px]">
-            I'm a skilled Fullstack Developer with experience in TypeScript and
-            JavaScript, and expertise in frameworks like React, Node.js and
-            Web3. Dedicated to delivering seamless and engaging user
-            interactions, I specialize in both front-end and back-end web
-            development, combining modern frameworks with industry-standard
-            design methodologies. My experience encompasses leading teams,
-            desiging architectures and consistently achieving optimal web
-            performance to create user-friendly solutions that solve real-world
-            problems. Let's work together to bring your ideas to life!
-          </p>
-        </div>
-      </motion.div>
+            <p className="text-center text-secondary text-[17px] leading-[30px]">
+              I'm a skilled Fullstack Developer with experience in TypeScript
+              and JavaScript, and expertise in frameworks like React, Node.js
+              and Web3. Dedicated to delivering seamless and engaging user
+              interactions, I specialize in both front-end and back-end web
+              development, combining modern frameworks with industry-standard
+              design methodologies. My experience encompasses leading teams,
+              desiging architectures and consistently achieving optimal web
+              performance to create user-friendly solutions that solve
+              real-world problems. Let's work together to bring your ideas to
+              life!
+            </p>
+          </div>
+        }
+      />
 
       <Tech />
 

@@ -1,28 +1,36 @@
-import Navbar from "@/components/Navbar";
-import MyInfo from "@/components/MyInfo";
-import About from "@/components/About";
-import Experience from "@/components/Experience";
-import StarsCanvas from "@/components/canvas/Stars";
-import Works from "@/components/Works";
+import { useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import Home from "@/pages/Home";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 
-const App = () => {
-  return (
-    <div className="relative z-0 h-screen">
-      <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
-        <Navbar />
-        <MyInfo />
-      </div>
-      <div className="bg-primary flex flex-col items-center pb-20">
-        <About />
-        <Works />
-      </div>
+const ScrollToLocation = () => {
+  const { pathname, hash } = useLocation();
 
-      <div className="bg-primary relative z-0">
-        <Experience />
-        <StarsCanvas />
-      </div>
-    </div>
-  );
+  useEffect(() => {
+    if (hash) {
+      window.requestAnimationFrame(() => {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+      });
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [pathname, hash]);
+
+  return null;
 };
+
+const App = () => (
+  <>
+    <ScrollToLocation />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
+      <Route path="*" element={<Home />} />
+    </Routes>
+  </>
+);
 
 export default App;

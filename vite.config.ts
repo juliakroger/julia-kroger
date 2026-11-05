@@ -1,15 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-const path = require("path");
+import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "/src"),
-      process: "process/browser",
-      stream: "stream-browserify",
-      zlib: "browserify-zlib",
-      util: "util",
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
   plugins: [react()],

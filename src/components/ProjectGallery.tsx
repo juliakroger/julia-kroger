@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { projects } from "@/constants/projects";
 
 type Project = (typeof projects)[number];
@@ -6,23 +7,20 @@ type Project = (typeof projects)[number];
 const ProjectCard = ({
   project,
   index,
-  duplicate = false,
 }: {
   project: Project;
   index: number;
-  duplicate?: boolean;
 }) => (
   <a
     className="project-card"
     href={project.url}
     target="_blank"
     rel="noreferrer"
-    tabIndex={duplicate ? -1 : undefined}
   >
     <div className="project-card__visual">
       <img
         src={project.image}
-        alt={duplicate ? "" : `${project.name} website preview`}
+        alt={`${project.name} website preview`}
         draggable="false"
       />
       <span className="project-card__open">
@@ -51,6 +49,38 @@ const ProjectGallery = () => {
   const viewportRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(false);
   const resumeTimerRef = useRef<number | null>(null);
+  const [firstProjectIndex, setFirstProjectIndex] = useState(0);
+
+  const orderedProjects = projects.map((_, offset) => {
+    const index = (firstProjectIndex + offset) % projects.length;
+    return { project: projects[index], index };
+  });
+
+  const rotateForward = (viewport: HTMLDivElement) => {
+    const firstCard = viewport.querySelector<HTMLElement>(".project-card");
+    const cardWidth = firstCard?.offsetWidth ?? 0;
+    if (cardWidth <= 0) return false;
+
+    flushSync(() => {
+      setFirstProjectIndex((current) => (current + 1) % projects.length);
+    });
+    viewport.scrollLeft -= cardWidth;
+    return true;
+  };
+
+  const rotateBackward = (viewport: HTMLDivElement) => {
+    const firstCard = viewport.querySelector<HTMLElement>(".project-card");
+    const cardWidth = firstCard?.offsetWidth ?? 0;
+    if (cardWidth <= 0) return false;
+
+    flushSync(() => {
+      setFirstProjectIndex(
+        (current) => (current - 1 + projects.length) % projects.length
+      );
+    });
+    viewport.scrollLeft += cardWidth;
+    return true;
+  };
 
   const pause = () => {
     pausedRef.current = true;
@@ -89,10 +119,20 @@ const ProjectGallery = () => {
 
       if (!pausedRef.current) {
         viewport.scrollLeft += elapsed * 0.026;
-        const loopWidth = viewport.scrollWidth / 2;
 
-        if (loopWidth > 0 && viewport.scrollLeft >= loopWidth) {
-          viewport.scrollLeft -= loopWidth;
+        let firstCardWidth =
+          viewport.querySelector<HTMLElement>(".project-card")?.offsetWidth ?? 0;
+        let rotations = 0;
+
+        while (
+          firstCardWidth > 0 &&
+          viewport.scrollLeft >= firstCardWidth &&
+          rotations < projects.length
+        ) {
+          if (!rotateForward(viewport)) break;
+          firstCardWidth =
+            viewport.querySelector<HTMLElement>(".project-card")?.offsetWidth ?? 0;
+          rotations += 1;
         }
       }
 
@@ -112,10 +152,9 @@ const ProjectGallery = () => {
     if (!viewport) return;
 
     pause();
-    const loopWidth = viewport.scrollWidth / 2;
 
     if (direction === -1 && viewport.scrollLeft < viewport.clientWidth * 0.4) {
-      viewport.scrollLeft += loopWidth;
+      rotateBackward(viewport);
     }
 
     viewport.scrollBy({
@@ -163,18 +202,8 @@ const ProjectGallery = () => {
       >
         <div className="project-gallery__track">
           <div className="project-gallery__set">
-            {projects.map((project, index) => (
+            {orderedProjects.map(({ project, index }) => (
               <ProjectCard project={project} index={index} key={project.name} />
-            ))}
-          </div>
-          <div className="project-gallery__set" aria-hidden="true">
-            {projects.map((project, index) => (
-              <ProjectCard
-                project={project}
-                index={index}
-                duplicate
-                key={`duplicate-${project.name}`}
-              />
             ))}
           </div>
         </div>

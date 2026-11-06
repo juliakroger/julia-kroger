@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import ProjectGallery from "@/components/ProjectGallery";
+import { ScrambleWord } from "@/components/ScrambleText";
 import SciFiOrb from "@/components/SciFiOrb";
 import SiteFooter from "@/components/SiteFooter";
 import { careerStartYear, experiences } from "@/constants/experiences";
@@ -51,8 +52,8 @@ const Home = () => {
               Full-stack developer / Web3 / Team lead
             </p>
             <h1>
-              <span>BUILDING</span>
-              <span>DIGITAL</span>
+              <ScrambleWord label="BUILDING" />
+              <ScrambleWord label="DIGITAL" />
               <span className="hero__outline">SYSTEMS.</span>
             </h1>
           </div>

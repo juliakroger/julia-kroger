@@ -1,70 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useScrambleText } from "@/components/ScrambleText";
 
 const homeLinks = [
   { label: "Profile", href: "/#profile" },
   { label: "Projects", href: "/#projects" },
   { label: "Experience", href: "/#experience" },
 ];
-
-const SCRAMBLE_GLYPHS = "01X#<>/[]{}-+=_";
-
-const useScrambleText = (label: string) => {
-  const [visibleLabel, setVisibleLabel] = useState(label);
-  const frameRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    setVisibleLabel(label);
-
-    return () => {
-      if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
-    };
-  }, [label]);
-
-  const scramble = () => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
-
-    let iteration = 0;
-    let previousTimestamp = 0;
-
-    const animate = (timestamp: number) => {
-      if (timestamp - previousTimestamp < 34) {
-        frameRef.current = window.requestAnimationFrame(animate);
-        return;
-      }
-
-      previousTimestamp = timestamp;
-      const resolvedCharacters = Math.floor(iteration);
-
-      setVisibleLabel(
-        label
-          .split("")
-          .map((character, index) => {
-            if (character === " ") return " ";
-            if (index < resolvedCharacters) return character;
-
-            const glyphIndex = Math.floor(Math.random() * SCRAMBLE_GLYPHS.length);
-            return SCRAMBLE_GLYPHS[glyphIndex];
-          })
-          .join("")
-      );
-
-      if (resolvedCharacters >= label.length) {
-        setVisibleLabel(label);
-        frameRef.current = null;
-        return;
-      }
-
-      iteration += 0.46;
-      frameRef.current = window.requestAnimationFrame(animate);
-    };
-
-    frameRef.current = window.requestAnimationFrame(animate);
-  };
-
-  return { visibleLabel, scramble };
-};
 
 type ScrambleLinkProps = {
   label: string;
@@ -122,8 +64,27 @@ const Navbar = () => {
 
   useEffect(() => setMenuOpen(false), [pathname]);
 
+  useEffect(() => {
+    document.body.classList.toggle("menu-open", menuOpen);
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.classList.remove("menu-open");
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [menuOpen]);
+
   return (
-    <header className={`topbar${scrolled ? " topbar--scrolled" : ""}`}>
+    <header
+      className={`topbar${scrolled ? " topbar--scrolled" : ""}${
+        menuOpen ? " topbar--menu-open" : ""
+      }`}
+    >
       <Link
         className="brand-mark"
         to="/"
@@ -145,6 +106,7 @@ const Navbar = () => {
         type="button"
         aria-expanded={menuOpen}
         aria-controls="site-navigation"
+        aria-label={`${menuOpen ? "Close" : "Open"} navigation menu`}
         onClick={() => setMenuOpen((open) => !open)}
       >
         <span>{menuOpen ? "Close" : "Menu"}</span>
@@ -155,6 +117,7 @@ const Navbar = () => {
         id="site-navigation"
         className={`site-nav${menuOpen ? " site-nav--open" : ""}`}
         aria-label="Primary navigation"
+        onClick={() => setMenuOpen(false)}
       >
         {homeLinks.map((link) => (
           <ScrambleLink key={link.label} href={link.href} label={link.label} />
@@ -164,6 +127,10 @@ const Navbar = () => {
           label="Blog"
           to="/blog"
         />
+        <a className="site-nav__mobile-contact" href="mailto:juliakroger@gmail.com">
+          <span>Contact me</span>
+          <span aria-hidden="true">↗</span>
+        </a>
       </nav>
 
       <div className="topbar__action">

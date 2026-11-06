@@ -64,6 +64,25 @@ const MarkdownContent = ({ content }: { content: string }) => {
       continue;
     }
 
+    const image = line.match(
+      /^!\[([^\]]*)\]\((\S+?)(?:\s+["']([^"']+)["'])?\)$/
+    );
+    if (image) {
+      blocks.push(
+        <figure className="markdown-figure" key={`image-${index}`}>
+          <img
+            src={image[2]}
+            alt={image[1]}
+            loading="lazy"
+            decoding="async"
+          />
+          {image[3] ? <figcaption>{renderInline(image[3])}</figcaption> : null}
+        </figure>
+      );
+      index += 1;
+      continue;
+    }
+
     const heading = line.match(/^(#{1,3})\s+(.+)$/);
     if (heading) {
       const level = heading[1].length;

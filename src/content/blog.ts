@@ -4,7 +4,8 @@ export type BlogPost = {
   excerpt: string;
   date: string;
   displayDate: string;
-  readTime: string;
+  updated?: string;
+  displayUpdated?: string;
   tags: string[];
   featured: boolean;
   draft: boolean;
@@ -20,6 +21,18 @@ const postFiles = import.meta.glob("./posts/*.md", {
 }) as Record<string, string>;
 
 const unquote = (value: string) => value.replace(/^("|')|("|')$/g, "").trim();
+
+const formatDate = (rawDate: string) => {
+  const parsedDate = new Date(`${rawDate}T12:00:00`);
+
+  return Number.isNaN(parsedDate.getTime())
+    ? rawDate
+    : new Intl.DateTimeFormat("en", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      }).format(parsedDate);
+};
 
 const parsePost = (path: string, source: string): BlogPost => {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -40,22 +53,16 @@ const parsePost = (path: string, source: string): BlogPost => {
 
   const filename = path.split("/").pop()?.replace(/\.md$/, "") ?? "post";
   const rawDate = frontmatter.date || new Date().toISOString().slice(0, 10);
-  const parsedDate = new Date(`${rawDate}T12:00:00`);
-  const displayDate = Number.isNaN(parsedDate.getTime())
-    ? rawDate
-    : new Intl.DateTimeFormat("en", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      }).format(parsedDate);
+  const rawUpdated = frontmatter.updated;
 
   return {
     slug: frontmatter.slug || filename,
     title: frontmatter.title || filename.replace(/-/g, " "),
     excerpt: frontmatter.excerpt || "",
     date: rawDate,
-    displayDate,
-    readTime: frontmatter.readTime || "4 min read",
+    displayDate: formatDate(rawDate),
+    updated: rawUpdated,
+    displayUpdated: rawUpdated ? formatDate(rawUpdated) : undefined,
     tags: (frontmatter.tags || "Notes")
       .split(",")
       .map((tag) => tag.trim())

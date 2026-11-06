@@ -31,12 +31,10 @@ const BlogPost = () => {
       <main className="article-page">
         <header className="article-header technical-grid">
           <Link className="article-header__back" to="/blog">
-            ↙ All field notes
+            {"< ALL FIELD NOTES"}
           </Link>
           <div className="article-header__meta">
             <span>{post.tags.join(" / ")}</span>
-            <time dateTime={post.date}>{post.displayDate}</time>
-            <span>{post.readTime}</span>
           </div>
           <h1>{post.title}</h1>
           <p>{post.excerpt}</p>
@@ -50,11 +48,16 @@ const BlogPost = () => {
         </header>
 
         <article className="article-body">
-          <aside>
-            <span>WRITTEN BY</span>
-            <strong>JÚLIA KROGER</strong>
+          <aside aria-label="Article details">
+            <div>
+              <span>WRITTEN BY</span>
+              <strong>JÚLIA KROGER</strong>
+            </div>
             <i />
-            <span>FULL-STACK<br />DEVELOPER</span>
+            <div>
+              <span>PUBLISHED</span>
+              <time dateTime={post.date}>{post.displayDate}</time>
+            </div>
           </aside>
           <MarkdownContent content={post.content} />
         </article>

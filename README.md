@@ -35,3 +35,11 @@ draft: false
 Posts are sorted by date and appear automatically in the Blog tab. The built-in
 renderer supports headings, paragraphs, links, bold text, inline code, lists,
 quotes, and fenced code blocks.
+
+Use `date` for the original publication date. When an older post is revised with
+current information, add an `updated` date so both moments are shown honestly:
+
+```yaml
+date: "2021-11-05"
+updated: "2026-11-05"
+```

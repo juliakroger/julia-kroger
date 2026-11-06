@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import { ScrambleWord } from "@/components/ScrambleText";
 import SiteFooter from "@/components/SiteFooter";
 import { publishedPosts } from "@/content/blog";
+
+const archiveYears = [...new Set(publishedPosts.map((post) => post.date.slice(0, 4)))];
+const archiveLabel =
+  archiveYears.length > 1
+    ? `${archiveYears.at(-1)}—${archiveYears[0]}`
+    : archiveYears[0] || "—";
 
 const Blog = () => (
   <div className="site-shell">
@@ -16,13 +23,14 @@ const Blog = () => (
           </p>
           <span>{String(publishedPosts.length).padStart(2, "0")} entries</span>
         </div>
-        <h1>
-          FIELD<span>_</span>
+        <h1 aria-label="Field Notes">
+          <ScrambleWord label="FIELD" />
+          <span className="blog-hero__underscore" aria-hidden="true">_</span>
           <br />
-          NOTES
+          <ScrambleWord label="NOTES" />
         </h1>
         <div className="blog-hero__intro">
-          <span>JOURNAL / 2026</span>
+          <span>JOURNAL / {archiveLabel}</span>
           <p>
             Technical notes, experiments, and lessons from building digital products.
           </p>
@@ -36,11 +44,11 @@ const Blog = () => (
       <section className="blog-index" aria-labelledby="archive-title">
         <div className="blog-index__header">
           <p id="archive-title">LATEST TRANSMISSIONS</p>
-          <span>ORDER / DESCENDING</span>
+          <span>CARD ARCHIVE / SCROLL →</span>
         </div>
 
         {publishedPosts.length > 0 ? (
-          <div className="blog-grid">
+          <div className="blog-grid" aria-label="Scrollable blog post cards">
             {publishedPosts.map((post, index) => (
               <Link
                 className={`blog-card${post.featured ? " blog-card--featured" : ""}`}
@@ -57,7 +65,6 @@ const Blog = () => (
                   <span>{post.excerpt}</span>
                 </div>
                 <div className="blog-card__footer">
-                  <span>{post.readTime}</span>
                   <strong>Read note ↗</strong>
                 </div>
               </Link>
